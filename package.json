@@ -1,0 +1,32 @@
+{
+    "name": "mood-record",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev": "nodemon --watch src/**/*.ts --exec ts-node ./src/app.ts",
+        "dev:telegram": "nodemon --watch src/**/*.ts --exec ts-node ./src/telegram_bot/main.ts",
+        "build": "tsc",
+        "start": "node ./dist/app.js",
+        "format": "prettier --loglevel silent --write src/**/*.ts"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/node": "^20.11.10",
+        "@types/node-cron": "^3.0.11",
+        "nodemon": "^3.0.3",
+        "prettier": "3.2.4",
+        "ts-node": "^10.9.2",
+        "tsconfig-paths": "^4.2.0",
+        "typescript": "^5.3.3"
+    },
+    "dependencies": {
+        "@grammyjs/conversations": "^1.2.0",
+        "axios": "^1.6.7",
+        "dotenv": "^16.4.1",
+        "grammy": "^1.20.3",
+        "node-cron": "^3.0.3"
+    }
+}

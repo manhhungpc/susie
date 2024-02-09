@@ -1,0 +1,30 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "E:\\mood-record\\src\\server\\src\\_logs\\error\\.979cf8403ce458567705b3456b8b2180cd93cd5d-audit.json",
+    "files": [
+        {
+            "date": 1706583909733,
+            "name": "E:\\mood-record\\src\\server\\src\\_logs\\error\\2024-01-30.log",
+            "hash": "141272d1b9471d7664a2afd6e575e90f3b47a84467b0c7ffcc072e9f41ca6966"
+        },
+        {
+            "date": 1707212340437,
+            "name": "E:\\mood-record\\src\\server\\src\\_logs\\error\\2024-02-06.log",
+            "hash": "65f703c0656ca40ea06a1a712413e54844188e19e33bf70ed7511de7eb6a77bf"
+        },
+        {
+            "date": 1707318268411,
+            "name": "E:\\mood-record\\src\\server\\src\\_logs\\error\\2024-02-07.log",
+            "hash": "4203522f57d7f9fd39cba9a568e817705b1ce187dc8f394125bbde972bdd0137"
+        },
+        {
+            "date": 1707386620801,
+            "name": "E:\\mood-record\\src\\server\\src\\_logs\\error\\2024-02-08.log",
+            "hash": "bc3985e24cc7bd6cc0e8760dc8cc0642f5f493f187546772c8d158f495a23232"
+        }
+    ],
+    "hashType": "sha256"
+}

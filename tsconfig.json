@@ -1,0 +1,26 @@
+{
+    "ts-node": {
+        "require": ["tsconfig-paths/register"],
+    },
+    "compilerOptions": {
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "pretty": true,
+        "resolveJsonModule": true,
+        "sourceMap": true,
+        "target": "es2021",
+        "outDir": "./dist",
+        "baseUrl": ".",
+        "experimentalDecorators": true,
+        "strict": true,
+
+        "paths": {
+            "@telegram/*": ["./src/telegram_bot/*"],
+            "@discord/*": ["./src/discord_bot/*"],
+            "@config/*": ["./src/config/*"],
+            "@site/*": ["./src/site/*"],
+        },
+    },
+    "include": ["./src"],
+    "exclude": ["node_modules", "src/**/*.spec.ts"],
+}

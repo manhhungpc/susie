@@ -1,0 +1,40 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "target": "es2019",
+        "noImplicitAny": true,
+        "moduleResolution": "node",
+        "skipLibCheck": true,
+        "sourceMap": true,
+        "outDir": "dist",
+        // "lib": ["es2017", "esnext.asynciterable"],
+        "typeRoots": ["./node_modules/@types"],
+        "allowSyntheticDefaultImports": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "forceConsistentCasingInFileNames": true,
+        "pretty": true,
+        "declaration": true,
+        "allowJs": true,
+        "noEmit": false,
+        "resolveJsonModule": true,
+        "importHelpers": true,
+        "baseUrl": "./src",
+        "paths": {
+            "@config/*": ["config/*"],
+            "@controllers/*": ["api/controllers/*"],
+            "@exceptions/*": ["api/exceptions/*"],
+            "@interfaces/*": ["api/interfaces/*"],
+            "@middlewares/*": ["api/middlewares/*"],
+            "@models/*": ["api/models/*"],
+            "@services/*": ["api/services/*"],
+            "@requests/*": ["api/requests/*"],
+            "@utils/*": ["utils/*"],
+            "@base/*": ["*"]
+        }
+    },
+    "include": ["src/**/*"],
+    "exclude": ["./node_modules", "./src/http", "./src/logs"]
+}
