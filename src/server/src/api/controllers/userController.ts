@@ -1,10 +1,14 @@
 import { Container, Service } from "typedi";
 import { fail, success } from "@utils/helper";
 import { UserService } from "@services/userService";
-import { Body, Get, JsonController, Post, Put } from "routing-controllers";
+import { Body, Get, JsonController, Param, Post, Put, QueryParams } from "routing-controllers";
 import { OpenAPI } from "routing-controllers-openapi";
-import { CreateUserRequest } from "@requests/CreateUserRequest";
+import { CreateUserRequest } from "@requests/user/CreateUserRequest";
 import { CustomError } from "@interfaces/ErrorInterface";
+import { UserInfo } from "@base/decorators/UserInfo";
+import { UserInterface } from "@interfaces/UserInterface";
+import { QueryEmotionRequest } from "@requests/emotion/QueryEmotionRequest";
+import { UpdateUserRequest } from "@requests/user/UpdateUserRequest";
 
 @Service()
 @OpenAPI({
@@ -12,21 +16,25 @@ import { CustomError } from "@interfaces/ErrorInterface";
 })
 @JsonController("/users")
 export class UserController {
-    // public auth = Container.get(AuthService);
     public constructor(private userService: UserService) {}
+
+    @Get()
+    public async getUserInfo(@UserInfo() user: UserInterface) {
+        return success(await this.userService.getUserInfo());
+    }
+
+    @Get("/:id")
+    public async getUserById(@Param("id") id: string) {
+        return success(await this.userService.getUserById(id));
+    }
 
     @Post()
     public async createNewUser(@Body() request: CreateUserRequest) {
-        try {
-            return success(await this.userService.createNewUser(request));
-        } catch (error) {
-            error = error as CustomError;
-            return fail(error.httpCode, error.message);
-        }
+        return success(await this.userService.createNewUser(request));
     }
 
     @Put()
-    public async updateUser() {
-        // return success(await this.userService.newUser());
+    public async updateUser(@Body() request: UpdateUserRequest, @UserInfo() user: UserInterface) {
+        return success(await this.userService.updateUser(request, user));
     }
 }

@@ -1,12 +1,19 @@
 import { Service } from "typedi";
-import { CreateUserRequest } from "@requests/CreateUserRequest";
+import { CreateUserRequest } from "@requests/user/CreateUserRequest";
 import { User } from "@models/Mongo/Users";
 import { BadRequestError } from "routing-controllers";
 import { ErrorMsg } from "@utils/error-msg";
 import { slugString } from "@utils/helper";
+import { UpdateUserRequest } from "@requests/user/UpdateUserRequest";
+import { UserInterface } from "@interfaces/UserInterface";
+import moment from "moment-timezone";
 
 @Service()
 export class UserService {
+    public async getUserInfo() {}
+
+    public async getUserById(id: string) {}
+
     public async createNewUser(request: CreateUserRequest) {
         if ((!request.telegram || !request.discord) && !request.name) {
             throw new BadRequestError(ErrorMsg.MISSING_BODY_FIELDS.en);
@@ -31,5 +38,26 @@ export class UserService {
         const user = await newUser.save();
 
         return user.toJSON();
+    }
+
+    public async updateUser(request: UpdateUserRequest, user: UserInterface) {
+        const updateData = { ...request };
+        if (!request.time_zone) {
+            updateData.time_zone = moment.tz.guess();
+        }
+
+        if (moment(request.bod).isValid() == false) {
+            throw new BadRequestError(ErrorMsg.MALFORMED_FIELD.en);
+        }
+
+        const updatedUser = await User.findOneAndUpdate(
+            {
+                _id: user._id,
+            },
+            updateData,
+            { new: true, upsert: false },
+        ).lean();
+
+        return updatedUser;
     }
 }

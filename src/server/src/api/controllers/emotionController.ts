@@ -4,17 +4,19 @@ import { Body, Get, JsonController, Param, Post, Put, QueryParams, UseBefore } f
 import { OpenAPI } from "routing-controllers-openapi";
 import { UserInfo } from "@base/decorators/UserInfo";
 import { UserInterface } from "@base/api/interfaces/UserInterface";
-import { QueryEmotionRequest } from "@requests/QueryEmotionRequest";
+import { QueryEmotionRequest } from "@requests/emotion/QueryEmotionRequest";
 import { EmotionService } from "@services/emotionService";
-import { CreateTodayEmotionRequest } from "@requests/CreateTodayEmotionRequest";
+import { CreateTodayEmotionRequest } from "@requests/emotion/CreateTodayEmotionRequest";
 import { BotKeyCheck } from "@middlewares/BotKeyCheck";
+import { CustomError } from "@interfaces/ErrorInterface";
+import { UpdateEmotionRequest } from "@requests/emotion/UpdateEmotionRequest";
 
 @Service()
 @OpenAPI({
     tags: ["Emotion"],
 })
 @JsonController("/emotion")
-// @UseBefore(BotKeyCheck)
+@UseBefore(BotKeyCheck)
 export class EmotionController {
     public constructor(private emotionService: EmotionService) {}
 
@@ -23,17 +25,18 @@ export class EmotionController {
         return success(await this.emotionService.getAllEmotions());
     }
 
-    @Post("/today")
-    public async createTodayEmotion(@Body() request: CreateTodayEmotionRequest) {
-        try {
-            return success(await this.emotionService.createTodayEmotion(request));
-        } catch (err) {
-            return fail(err.httpCode, err.message);
-        }
+    @Get("/:id")
+    public async getEmotionById(@Param("id") id: string) {
+        return success(await this.emotionService.getEmotionById(id));
     }
 
-    @Put("/:id")
-    public async updateDateEmotion(@UserInfo() user: UserInterface) {
-        // return success(await this.emotionService.test());
+    @Post("/today")
+    public async createTodayEmotion(@Body() request: CreateTodayEmotionRequest, @UserInfo() user: UserInterface) {
+        return success(await this.emotionService.createTodayEmotion(request, user));
+    }
+
+    @Put()
+    public async updateTodayEmotion(@Body() request: UpdateEmotionRequest, @UserInfo() user: UserInterface) {
+        return success(await this.emotionService.updateEmotion(request, user));
     }
 }

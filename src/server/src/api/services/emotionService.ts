@@ -3,24 +3,19 @@ import { User } from "@models/Mongo/Users";
 import { BadRequestError } from "routing-controllers";
 import { ErrorMsg } from "@utils/error-msg";
 import { slugString } from "@utils/helper";
-import { CreateTodayEmotionRequest } from "@requests/CreateTodayEmotionRequest";
+import { CreateTodayEmotionRequest } from "@requests/emotion/CreateTodayEmotionRequest";
 import { Emotion } from "@models/Mongo/Emotions";
+import { UserInterface } from "@interfaces/UserInterface";
+import moment from "moment";
+import { UpdateEmotionRequest } from "@requests/emotion/UpdateEmotionRequest";
 
 @Service()
 export class EmotionService {
     public async getAllEmotions() {}
 
-    public async createTodayEmotion(request: CreateTodayEmotionRequest) {
-        let query: any;
-        if (request.source == "telegram") {
-            query = { "telegram.id": request.user };
-        }
-        const user = await User.findOne(query).lean();
+    public async getEmotionById(id: string) {}
 
-        if (!user) {
-            throw new BadRequestError(ErrorMsg.USER_NOT_FOUND.en);
-        }
-
+    public async createTodayEmotion(request: CreateTodayEmotionRequest, user: UserInterface) {
         const currentYear = new Date().getFullYear().toString();
         const currentEmotion = await Emotion.findOne({ user: user._id, year: currentYear }).lean();
 
@@ -63,5 +58,57 @@ export class EmotionService {
         });
 
         await newYearEmotion.save();
+    }
+
+    public async updateEmotion(request: UpdateEmotionRequest, user: UserInterface) {
+        let updateData: any = {};
+
+        let query: any = {
+            "emotions.date": request.date,
+        };
+
+        if (request.note) {
+            updateData = {
+                $set: {
+                    "emotions.$.note": request.note,
+                },
+            };
+        }
+
+        if (request.is_update_latest) {
+            const currentYear = new Date().getFullYear().toString();
+            const emotion = await Emotion.findOne({ user: user._id, year: currentYear }).lean();
+
+            //@ts-ignore
+            const lastEmotion = emotion.emotions.sort((first, second) => second.date - first.date)[0];
+
+            if (!request.mood) {
+                throw new BadRequestError(ErrorMsg.MISSING_BODY_FIELDS.en);
+            }
+            const currentTime = moment(new Date());
+            const createdTime = moment(lastEmotion.date);
+            const differentHoursInUpdate = Math.round(moment.duration(currentTime.diff(createdTime)).asHours());
+
+            const ALLOW_UPDATE_HOURS = 10;
+            if (differentHoursInUpdate < ALLOW_UPDATE_HOURS) {
+                updateData.mood = request.mood;
+            } else {
+                throw new BadRequestError(ErrorMsg.OLD_MOOD_SHOULDNT_HOLD.en);
+            }
+
+            query["emotions.date"] = lastEmotion.date;
+            updateData = {
+                $set: {
+                    "emotions.$.mood": updateData.mood ?? lastEmotion.mood,
+                    "emotions.$.note": updateData.note ?? lastEmotion.note,
+                },
+            };
+        }
+
+        if (Object.keys(updateData).length == 0) {
+            return "No update needed";
+        }
+        await Emotion.findOneAndUpdate(query, updateData, { new: true });
+        return true;
     }
 }

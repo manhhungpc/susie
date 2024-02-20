@@ -14,7 +14,7 @@ import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import { Container } from "typedi";
 import { serverConfig, dbConnection } from "@config/app";
-import { ErrorMiddleware } from "@middlewares/Error";
+import { HttpErrorHandler } from "@middlewares/ErrorHandler";
 import { logger, stream } from "@utils/logger";
 import { routingControllersToSpec } from "routing-controllers-openapi";
 
@@ -102,6 +102,6 @@ export class App {
     }
 
     private initializeErrorHandling() {
-        this.app.use(ErrorMiddleware);
+        // this.app.use(HttpErrorHandler);
     }
 }

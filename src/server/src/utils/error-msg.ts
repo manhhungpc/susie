@@ -1,4 +1,8 @@
 export const ErrorMsg = {
+    MALFORMED_FIELD: {
+        en: "Malformed field",
+        vi: "Có trường không hợp dữ liệu",
+    },
     USER_EXISTED: {
         en: "User already registered!",
         vi: "Người dùng đã đăng ký tài khoản này",
@@ -22,5 +26,17 @@ export const ErrorMsg = {
     ALREADY_LOG_TODAY_EMOTION: {
         en: "Already record today emotion!",
         vi: "Đã ghi lại cảm xúc của ngày hôm nay!",
+    },
+    EMOTION_NOT_FOUND: {
+        en: "Mood not found",
+        vi: "",
+    },
+    NO_EMOTION_TODAY: {
+        en: "No emotion today",
+        vi: "",
+    },
+    OLD_MOOD_SHOULDNT_HOLD: {
+        en: "It already yesterday, don't care about it anymore",
+        vi: "",
     },
 };
