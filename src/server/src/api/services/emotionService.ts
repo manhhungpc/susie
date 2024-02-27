@@ -8,12 +8,64 @@ import { Emotion } from "@models/Mongo/Emotions";
 import { UserInterface } from "@interfaces/UserInterface";
 import moment from "moment";
 import { UpdateEmotionRequest } from "@requests/emotion/UpdateEmotionRequest";
+import { QueryEmotionRequest } from "@requests/emotion/QueryEmotionRequest";
+import { isDate } from "class-validator";
 
 @Service()
 export class EmotionService {
-    public async getAllEmotions() {}
+    public async getAllEmotions(request: QueryEmotionRequest, user: UserInterface) {
+        let query: any = { $and: [] };
 
-    public async getEmotionById(id: string) {}
+        if (request.mood) {
+            query.$and.push({ $eq: ["$$emotion.mood", request.mood] });
+        }
+
+        if (request.date) {
+            query.$and.push({
+                $gte: ["$$emotion.date", moment(request.date).startOf("day").toDate()],
+                $lte: ["$$emotion.date", moment(request.date).endOf("day").toDate()],
+            });
+        }
+
+        if (request.note != undefined) {
+            const note = request.note == "" ? null : request.note;
+            query.$and.push({
+                $regexMatch: {
+                    input: "$$emotion.note",
+                    regex: new RegExp(note, "i"),
+                },
+            });
+        }
+
+        const emotions = await Emotion.aggregate([
+            { $match: { year: request.year } },
+            {
+                $project: {
+                    _id: 1,
+                    year: 1,
+                    user: 1,
+                    emotions: {
+                        $filter: {
+                            input: "$emotions",
+                            as: "emotion",
+                            cond: query,
+                        },
+                    },
+                },
+            },
+        ]);
+
+        return emotions;
+    }
+
+    public async getEmotionById(id: string) {
+        const emotion = await Emotion.findById(id).lean();
+        if (!emotion) {
+            throw new BadRequestError(ErrorMsg.EMOTION_NOT_FOUND.en);
+        }
+
+        return emotion;
+    }
 
     public async createTodayEmotion(request: CreateTodayEmotionRequest, user: UserInterface) {
         const currentYear = new Date().getFullYear().toString();

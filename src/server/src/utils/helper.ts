@@ -40,7 +40,7 @@ function transform_data(data: any) {
             }
         } else if (typeof data === "object") {
             if (data instanceof Types.ObjectId) {
-                return { id: data.toJSON() };
+                return data.toJSON();
             }
 
             for (const property in data) {

@@ -22,7 +22,7 @@ export class EmotionController {
 
     @Get()
     public async getAllEmotion(@QueryParams() request: QueryEmotionRequest, @UserInfo() user: UserInterface) {
-        return success(await this.emotionService.getAllEmotions());
+        return success(await this.emotionService.getAllEmotions(request, user));
     }
 
     @Get("/:id")

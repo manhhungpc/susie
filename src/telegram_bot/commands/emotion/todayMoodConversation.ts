@@ -13,7 +13,6 @@ export async function todayMoodConversation(
     ctx: TodayMoodContext,
 ) {
     const moodArgs = ctx.match;
-    console.log("🚀 ~ file: todayMoodConversation.ts:16 ~ moodArgs:", moodArgs, typeof moodArgs);
     if (moodArgs) {
         const response = await updateTodayMood(Number(moodArgs), String(ctx.from?.id));
         await ctx.reply(response);
@@ -37,7 +36,7 @@ export async function todayMoodConversation(
     WONDERFUL = 6,`);
 
     const mood = await conversation.waitFor(":text");
-    if (Object.values(Mood).includes(Number(mood)) == false) {
+    if (Object.values(Mood).includes(Number(mood.message?.text)) == false) {
         await ctx.reply("Invalid mood argument");
         return;
     }

@@ -1,15 +1,19 @@
-import { IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { Mood } from "@models/Mongo/Emotions";
+import { IsDate, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class QueryEmotionRequest {
     @IsString()
-    @IsOptional()
-    year: number;
+    @IsNotEmpty()
+    year: string;
 
-    @IsString()
+    @IsOptional()
+    mood: Mood;
+
+    @IsDate()
     @IsOptional()
     date: Date;
 
     @IsString()
     @IsOptional()
-    id: string;
+    note: string;
 }

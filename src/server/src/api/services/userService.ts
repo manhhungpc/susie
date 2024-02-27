@@ -60,4 +60,6 @@ export class UserService {
 
         return updatedUser;
     }
+
+    public async findSimilarMoodUser(user: UserInterface) {}
 }
