@@ -4,8 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "dev": "nodemon --watch src/**/*.ts --exec ts-node ./src/app.ts",
-        "dev:telegram": "nodemon --watch src/**/*.ts --exec ts-node ./src/telegram_bot/main.ts",
+        "dev": "cd ./src/server && npm run dev",
+        "dev:telegram": "nodemon --watch src/**/*.ts --exec ts-node ./src/bot/telegram/main.ts",
         "build": "tsc",
         "start": "node ./dist/app.js",
         "format": "prettier --loglevel silent --write src/**/*.ts"
@@ -25,8 +25,8 @@
     "dependencies": {
         "@grammyjs/conversations": "^1.2.0",
         "axios": "^1.6.7",
+        "cron": "^3.1.6",
         "dotenv": "^16.4.1",
-        "grammy": "^1.20.3",
-        "node-cron": "^3.0.3"
+        "grammy": "^1.20.3"
     }
 }

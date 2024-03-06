@@ -1,8 +1,8 @@
 import { type Conversation, type ConversationFlavor } from "@grammyjs/conversations";
 import { Context, Keyboard, SessionFlavor } from "grammy";
-import { appConfig } from "src/config/app";
+import { appConfig } from "@bot_config/app";
 import axios from "axios";
-import { type ResponseAPI } from "src/telegram_bot/interface/interface";
+import { type ResponseAPI } from "src/bot/telegram/interface/interface";
 
 interface Body {
     name: string;

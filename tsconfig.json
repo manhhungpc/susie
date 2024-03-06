@@ -15,9 +15,9 @@
         "strict": true,
 
         "paths": {
-            "@telegram/*": ["./src/telegram_bot/*"],
-            "@discord/*": ["./src/discord_bot/*"],
-            "@config/*": ["./src/config/*"],
+            "@telegram_bot/*": ["./src/bot/telegram/*"],
+            "@discord_bot/*": ["./src/bot/discord/*"],
+            "@bot_config/*": ["./src/bot/config/*"],
             "@site/*": ["./src/site/*"],
         },
     },

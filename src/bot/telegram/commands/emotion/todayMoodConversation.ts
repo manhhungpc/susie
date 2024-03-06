@@ -1,9 +1,9 @@
 import { type Conversation, type ConversationFlavor } from "@grammyjs/conversations";
 import { Context, Keyboard, SessionFlavor } from "grammy";
-import { appConfig } from "src/config/app";
+import { appConfig } from "@bot_config/app";
 import axios from "axios";
-import { type ResponseAPI } from "src/telegram_bot/interface/interface";
-import { Mood } from "@config/enum";
+import { type ResponseAPI } from "@telegram_bot/interface/interface";
+import { Mood } from "@bot_config/enum";
 
 type TodayMoodContext = Context & ConversationFlavor;
 type TodayMoodConversation = Conversation<TodayMoodContext>;
@@ -53,9 +53,17 @@ const updateTodayMood = async (mood: number, user: string) => {
         user: user,
         mood: mood,
     };
-    const response = await axios.post(`${appConfig.API_URL}/api/emotion/today`, body);
-    if (response.data.success == false) {
-        return response.data.message ?? "Something wrong!";
+    try {
+        const response = await axios.post(`${appConfig.API_URL}/api/emotion/today`, body, {
+            headers: {
+                //TODO: Add jwt
+            },
+        });
+        if (response.data.success == false) {
+            return response.data.message ?? "Something wrong!";
+        }
+    } catch (err) {
+        return "Something wrong";
     }
     return "Recorded";
 };

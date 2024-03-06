@@ -9,4 +9,5 @@ export const appConfig = {
     TELEGRAM_TOKEN: env("TELEGRAM_TOKEN"),
     CRON_HOUR: env("CRON_HOUR", 22),
     API_URL: env("API_URL"),
+    BOT_KEY: env("BOT_KEY"),
 };
