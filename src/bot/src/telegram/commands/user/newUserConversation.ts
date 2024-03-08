@@ -2,7 +2,7 @@ import { type Conversation, type ConversationFlavor } from "@grammyjs/conversati
 import { Context, Keyboard, SessionFlavor } from "grammy";
 import { appConfig } from "@bot_config/app";
 import axios from "axios";
-import { type ResponseAPI } from "src/bot/telegram/interface/interface";
+import { type ResponseAPI } from "src/telegram/interface/interface";
 
 interface Body {
     name: string;
@@ -51,11 +51,7 @@ export async function newUserConversation(conversation: NewUserConversation, ctx
             },
         );
 
-        const response = await conversation.waitForCallbackQuery([
-            "get_phone_number",
-            "custom_username",
-            "ignore",
-        ]);
+        const response = await conversation.waitForCallbackQuery(["get_phone_number", "custom_username", "ignore"]);
         if (response.match === "get_phone_number") {
             await ctx.reply(
                 "Allow me to get your phone number? \nIf you don't see it, it's the keyboard icon at left input text",

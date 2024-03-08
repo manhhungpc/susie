@@ -8,7 +8,6 @@ function env(key: string, defaultValue?: any | null): string {
 export const serverConfig = {
     PORT: env("PORT"),
     SECRET_KEY: env("SECRET_KEY"),
-    BOT_KEY: env("BOT_KEY"),
     NODE_ENV: env("NODE_ENV"),
 
     MONGO_PATH: env("MONGO_PATH"),

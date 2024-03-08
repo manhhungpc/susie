@@ -7,16 +7,16 @@ import { UserInterface } from "@base/api/interfaces/UserInterface";
 import { QueryEmotionRequest } from "@requests/emotion/QueryEmotionRequest";
 import { EmotionService } from "@services/emotionService";
 import { CreateTodayEmotionRequest } from "@requests/emotion/CreateTodayEmotionRequest";
-import { BotKeyCheck } from "@middlewares/BotKeyCheck";
 import { CustomError } from "@interfaces/ErrorInterface";
 import { UpdateEmotionRequest } from "@requests/emotion/UpdateEmotionRequest";
+import { JwtCheck } from "@middlewares/JwtCheck";
 
 @Service()
 @OpenAPI({
     tags: ["Emotion"],
 })
 @JsonController("/emotion")
-@UseBefore(BotKeyCheck)
+@UseBefore(JwtCheck)
 export class EmotionController {
     public constructor(private emotionService: EmotionService) {}
 

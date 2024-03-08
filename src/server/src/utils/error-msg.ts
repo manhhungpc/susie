@@ -11,6 +11,10 @@ export const ErrorMsg = {
         en: "Missing some required field in body",
         vi: "Thiếu dữ liệu trong body",
     },
+    INVALID_AUTH_HEADER: {
+        en: "Invalid authorize header",
+        vi: "Header xác thực không hợp lệ",
+    },
     AUTHORIZE_FAILED: {
         en: "Authorize failed!",
         vi: "Không thể xác minh!",

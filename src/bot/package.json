@@ -1,0 +1,32 @@
+{
+    "name": "bot",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev:telegram": "nodemon --watch src/**/*.ts --exec ts-node ./src/telegram/main.ts",
+        "build": "swc src -d dist --source-maps --copy-files",
+        "build:tsc": "tsc && tsc-alias"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@swc/cli": "^0.1.57",
+        "@swc/core": "^1.2.220",
+        "@types/node": "^20.11.10",
+        "@types/jsonwebtoken": "^8.5.8",
+        "nodemon": "^3.0.3",
+        "prettier": "3.2.4",
+        "ts-node": "^10.9.2",
+        "tsconfig-paths": "^4.2.0",
+        "typescript": "^5.3.3"
+    },
+    "dependencies": {
+        "@grammyjs/conversations": "^1.2.0",
+        "axios": "^1.6.7",
+        "cron": "^3.1.6",
+        "dotenv": "^16.4.5",
+        "grammy": "^1.21.1",
+        "jsonwebtoken": "^9.0.2"
+    }
+}

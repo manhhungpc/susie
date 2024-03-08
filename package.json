@@ -21,12 +21,5 @@
         "ts-node": "^10.9.2",
         "tsconfig-paths": "^4.2.0",
         "typescript": "^5.3.3"
-    },
-    "dependencies": {
-        "@grammyjs/conversations": "^1.2.0",
-        "axios": "^1.6.7",
-        "cron": "^3.1.6",
-        "dotenv": "^16.4.1",
-        "grammy": "^1.20.3"
     }
 }

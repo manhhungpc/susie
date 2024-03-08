@@ -1,17 +1,15 @@
 import { type Conversation, type ConversationFlavor } from "@grammyjs/conversations";
 import { Context, Keyboard, SessionFlavor } from "grammy";
 import { appConfig } from "@bot_config/app";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { type ResponseAPI } from "@telegram_bot/interface/interface";
 import { Mood } from "@bot_config/enum";
+import { generateJWT } from "src/utils/jwt";
 
 type TodayMoodContext = Context & ConversationFlavor;
 type TodayMoodConversation = Conversation<TodayMoodContext>;
 
-export async function todayMoodConversation(
-    conversation: TodayMoodConversation,
-    ctx: TodayMoodContext,
-) {
+export async function todayMoodConversation(conversation: TodayMoodConversation, ctx: TodayMoodContext) {
     const moodArgs = ctx.match;
     if (moodArgs) {
         const response = await updateTodayMood(Number(moodArgs), String(ctx.from?.id));
@@ -54,16 +52,18 @@ const updateTodayMood = async (mood: number, user: string) => {
         mood: mood,
     };
     try {
+        const token = generateJWT({ user });
         const response = await axios.post(`${appConfig.API_URL}/api/emotion/today`, body, {
             headers: {
-                //TODO: Add jwt
+                Authorization: `Bearer ${token}`,
             },
         });
         if (response.data.success == false) {
             return response.data.message ?? "Something wrong!";
         }
     } catch (err) {
-        return "Something wrong";
+        const error = err as AxiosError<Error>;
+        return error.response?.data?.message;
     }
     return "Recorded";
 };
