@@ -17,6 +17,7 @@ import { serverConfig, dbConnection } from "@config/app";
 import { HttpErrorHandler } from "@middlewares/ErrorHandler";
 import { logger, stream } from "@utils/logger";
 import { routingControllersToSpec } from "routing-controllers-openapi";
+import { getFormattedDate } from "@utils/helper";
 
 export class App {
     public app: express.Application;
@@ -35,6 +36,7 @@ export class App {
             this.initializeSwagger();
             this.initializeErrorHandling();
             this.registerRoutingControllers();
+            this.registerDefaultPage();
         } catch (err) {
             console.log(err);
         }
@@ -76,6 +78,15 @@ export class App {
             controllers: [__dirname + serverConfig.controllersDir],
             middlewares: [__dirname + serverConfig.middlewaresDir],
             // authorizationChecker: HasPermission,
+        });
+    }
+
+    private registerDefaultPage() {
+        this.app.get("/", (req, res) => {
+            res.json({
+                title: "Welcome to Susie the mood tracking bot",
+                date: getFormattedDate(new Date()),
+            });
         });
     }
 

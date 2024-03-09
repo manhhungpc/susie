@@ -9,6 +9,7 @@ import { UserInfo } from "@base/decorators/UserInfo";
 import { UserInterface } from "@interfaces/UserInterface";
 import { QueryEmotionRequest } from "@requests/emotion/QueryEmotionRequest";
 import { UpdateUserRequest } from "@requests/user/UpdateUserRequest";
+import { QueryUserRequest } from "@requests/user/QueryUserRequest";
 
 @Service()
 @OpenAPI({
@@ -19,8 +20,8 @@ export class UserController {
     public constructor(private userService: UserService) {}
 
     @Get()
-    public async getUserInfo(@UserInfo() user: UserInterface) {
-        return success(await this.userService.getUserInfo());
+    public async getUserInfo(@QueryParams() request: QueryUserRequest, @UserInfo() user: UserInterface) {
+        return success(await this.userService.getUserInfo(request, user));
     }
 
     @Get("/:id")

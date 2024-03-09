@@ -7,12 +7,23 @@ import { slugString } from "@utils/helper";
 import { UpdateUserRequest } from "@requests/user/UpdateUserRequest";
 import { UserInterface } from "@interfaces/UserInterface";
 import moment from "moment-timezone";
+import { QueryUserRequest } from "@requests/user/QueryUserRequest";
 
 @Service()
 export class UserService {
-    public async getUserInfo() {}
+    public async getUserInfo(request: QueryUserRequest, user: UserInterface) {
+        const userData = await User.findOne({ ...request }).lean();
+        return userData;
+    }
 
-    public async getUserById(id: string) {}
+    public async getUserById(id: string) {
+        const user = await User.findOne({ _id: id }).lean();
+        if (!user) {
+            throw new BadRequestError(ErrorMsg.USER_NOT_FOUND.en);
+        }
+
+        return user;
+    }
 
     public async createNewUser(request: CreateUserRequest) {
         if ((!request.telegram || !request.discord) && !request.name) {
