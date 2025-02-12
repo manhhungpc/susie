@@ -12,7 +12,7 @@ import { QueryUserRequest } from "@requests/user/QueryUserRequest";
 @Service()
 export class UserService {
     public async getUserInfo(request: QueryUserRequest, user: UserInterface) {
-        const userData = await User.findOne({ ...request }).lean();
+        const userData = await User.find({ ...request }).lean();
         return userData;
     }
 

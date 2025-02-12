@@ -7,7 +7,7 @@ function env(key: string, value?: any): string {
 
 export const appConfig = {
     TELEGRAM_TOKEN: env("TELEGRAM_TOKEN"),
-    CRON_HOUR: env("CRON_HOUR", 22),
+    CRON_HOUR: env("CRON_HOUR", 21),
     API_URL: env("API_URL"),
     JWT_KEY: env("JWT_KEY"),
 };

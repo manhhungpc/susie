@@ -13,8 +13,8 @@
     "devDependencies": {
         "@swc/cli": "^0.1.57",
         "@swc/core": "^1.2.220",
-        "@types/node": "^20.11.10",
         "@types/jsonwebtoken": "^8.5.8",
+        "@types/node": "^20.11.10",
         "nodemon": "^3.0.3",
         "prettier": "3.2.4",
         "ts-node": "^10.9.2",

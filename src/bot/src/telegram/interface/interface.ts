@@ -21,3 +21,8 @@ export interface User {
     allow_public: boolean;
     deleted_at: Date;
 }
+
+export interface NotifyUser {
+    telegram_id: string;
+    timezone: string;
+}

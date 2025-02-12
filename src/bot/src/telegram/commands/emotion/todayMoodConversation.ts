@@ -10,6 +10,7 @@ type TodayMoodContext = Context & ConversationFlavor;
 type TodayMoodConversation = Conversation<TodayMoodContext>;
 
 export async function todayMoodConversation(conversation: TodayMoodConversation, ctx: TodayMoodContext) {
+    await ctx.reply("How was your day?");
     const moodArgs = ctx.match;
     if (moodArgs) {
         const response = await updateTodayMood(Number(moodArgs), String(ctx.from?.id));
